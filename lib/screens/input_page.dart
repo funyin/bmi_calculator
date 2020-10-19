@@ -1,10 +1,12 @@
+import 'package:bmi_calculator/calculator_brain.dart';
 import 'package:bmi_calculator/icon_content.dart';
-import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/screens/results_page.dart';
+import 'file:///C:/Users/DELL/AndroidStudioProjects/Tuts/bmi-calculator-flutter/lib/components/reusable_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -190,7 +192,19 @@ class _InputPageState extends State<InputPage> {
             )),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, kRouteResults);
+                CalculatorBrain calcBrain =
+                    CalculatorBrain(weight: weight, height: height);
+
+                // Navigator.pushNamed(context, kRouteResults,
+                //     arguments: calcBrain);
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return Results(
+                    bmi: calcBrain.calculateBMI(),
+                    resultText: calcBrain.getResults(),
+                    interpretation: calcBrain.getInterpretation(),
+                  );
+                }));
               },
               child: Container(
                 alignment: Alignment.center,
